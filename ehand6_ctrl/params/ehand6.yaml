@@ -1,0 +1,20 @@
+ehand6_ctrl:
+  ros__parameters:
+    can_interface: can0
+    side: right                 # right (CAN ID 0x11) / left (0x12)
+    rx_id: 0                    # feedback CAN ID. 0 = same as tx, -1 = accept any
+    joint_names: [thumb_h, thumb_v, index, middle, ring, little]
+
+    default_velocity: 0.5       # used when JointState.velocity is empty (0..1)
+    default_effort: 0.8         # used when JointState.effort is empty (0..1)
+
+    query_timeout_ms: 30
+    idle_poll_period_s: 1.0     # periodic state publish while idle (0 = off)
+    move_poll_period_s: 0.05    # state publish period while moving
+    move_settle_tolerance: 0.02 # "reached" if |pos - target| <= this (0..1)
+    move_stall_time_s: 0.5      # stop monitoring if positions do not change this long
+    move_timeout_s: 5.0         # upper bound of one monitoring session
+
+    reset_timeout_s: 15.0
+    reset_poll_period_s: 0.05
+    reset_start_grace_s: 1.0    # if no state change is seen within this, treat as already zeroed

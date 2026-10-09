@@ -27,7 +27,7 @@ install(TARGETS ehand6_ctrl_node DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 install(PROGRAMS
   scripts/gui_node.py
-  DESTINATION lib/\${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

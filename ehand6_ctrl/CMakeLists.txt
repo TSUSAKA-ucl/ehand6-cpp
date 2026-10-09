@@ -25,6 +25,10 @@ ament_target_dependencies(ehand6_ctrl_node
 
 install(TARGETS ehand6_ctrl_node DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
+install(PROGRAMS
+  scripts/gui_node.py
+  DESTINATION lib/\${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

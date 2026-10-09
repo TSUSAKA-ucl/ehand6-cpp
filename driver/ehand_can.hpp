@@ -109,6 +109,9 @@ struct JointCmd {
     static JointCmd fromPercent(double pos_pct, double speed_pct, double torque_pct) {
         return {percentToRaw(pos_pct), percentToRaw(speed_pct), percentToRaw(torque_pct)};
     }
+    static JointCmd fromRaw(uint8_t pos_raw, uint8_t speed_raw, uint8_t torque_raw) {
+      return {pos_raw, speed_raw, torque_raw};
+    }
 };
 using JointCmds = std::array<JointCmd, kNumMotors>;
 using Payload   = std::array<uint8_t, kPayloadLen>;

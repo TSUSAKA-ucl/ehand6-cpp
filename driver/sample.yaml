@@ -1,0 +1,27 @@
+- name: "PEACE SIGN 2"
+  description: "Index and middle fingers extended, others closed"
+  fingers: 
+    1: {position: 0x80, speed: 128, torque: 0xCC}
+    2: {position: 0x80, speed: 128, torque: 0xCC}
+    3: {position: 0x00, speed: 128, torque: 0xCC}
+    4: {position: 0x00, speed: 128, torque: 0xCC}
+    5: {position: 0xFF, speed: 128, torque: 0xCC}
+    6: {position: 0xFF, speed: 128, torque: 0xCC}
+- name: "PEACE SIGN 4"
+  description: "Index, middle, ring, and little fingers extended, thumb closed"
+  fingers: 
+    1: {position: 0x80, speed: 128, torque: 0xCC}
+    2: {position: 0xFF, speed: 128, torque: 0xCC}
+    3: {position: 0x00, speed: 128, torque: 0xCC}
+    4: {position: 0x00, speed: 128, torque: 0xCC}
+    5: {position: 0x00, speed: 128, torque: 0xCC}
+    6: {position: 0x00, speed: 128, torque: 0xCC}
+- name: "CLOSED FIST"
+  description: "All fingers closed"
+  fingers: 
+    1: {position: 0xFF, speed: 64, torque: 0xCC}
+    2: {position: 0xFF, speed: 64, torque: 0xCC}
+    3: {position: 0xFF, speed: 64, torque: 0xCC}
+    4: {position: 0xFF, speed: 64, torque: 0xCC}
+    5: {position: 0xFF, speed: 255, torque: 0xCC}
+    6: {position: 0xFF, speed: 64, torque: 0xCC}

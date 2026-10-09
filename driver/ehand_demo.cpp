@@ -5,6 +5,10 @@
 #include <cstdio>
 #include <cstring>
 #include <thread>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <yaml-cpp/yaml.h>
 
 #include "ehand_can.hpp"
 
@@ -61,10 +65,28 @@ static void waitForNotStandby(ehand::EHandCan& hand) {
 }
 
 
+void moveSequence(ehand::EHandCan& hand,
+		  const std::vector<ehand::JointCmds>& seq,
+		  const std::vector<std::string>& names,
+		  int delay_ms) {
+  for (size_t i = 0; i < seq.size(); ++i) {
+    const auto& cmd = seq[i];
+    std::printf("moving to %s\n", names[i].c_str());
+    hand.movePosition(cmd);
+    waitForNotStandby(hand);
+    waitForStandby(hand);
+    std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+  }
+}
+
 int main(int argc, char* argv[]) {
+  char* yamlfile = nullptr;
   const char* ifname = argc > 1 ? argv[1] : "can0";
   const bool left    = argc > 2 && std::strcmp(argv[2], "left") == 0;
   const bool move    = argc > 3 && std::strcmp(argv[3], "move") == 0;
+  if (argc > 3 && ! move) {
+    yamlfile = argv[3];
+  }
   const bool zero    = argc > 4 && std::strcmp(argv[4], "reset") == 0;
   
   try {
@@ -89,6 +111,23 @@ int main(int argc, char* argv[]) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
       }
       if (hand.queryState(st, 200)) printState(st);
+    } else if (yamlfile) {
+      std::vector<ehand::JointCmds> seq;
+      std::vector<std::string> names;
+      YAML::Node root = YAML::LoadFile(yamlfile);
+      for (const auto& node : root) {
+	ehand::JointCmds cmd;
+	for (const auto& finger : node["fingers"]) {
+	  int idx = finger.first.as<int>();
+	  const auto& f = finger.second;
+	  cmd.at(idx-1) = ehand::JointCmd::fromRaw(f["position"].as<uint8_t>(),
+						   f["speed"].as<uint8_t>(),
+						   f["torque"].as<uint8_t>());
+	}
+	names.push_back(node["name"].as<std::string>());
+	seq.push_back(cmd);
+      }
+      moveSequence(hand, seq, names, 100);
     }
   } catch (const std::exception& e) {
     std::fprintf(stderr, "error: %s\n", e.what());

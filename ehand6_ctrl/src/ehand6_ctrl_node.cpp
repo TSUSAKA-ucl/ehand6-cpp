@@ -97,10 +97,10 @@ public:
 
         reset_srv_ = create_service<Trigger>(
             "reset", std::bind(&EHandNode::onReset, this, _1, _2),
-            rmw_qos_profile_services_default, grp_reset_);
+            rclcpp::ServicesQoS(), grp_reset_);
         estop_srv_ = create_service<Trigger>(
             "emergency_stop", std::bind(&EHandNode::onEmergencyStop, this, _1, _2),
-            rmw_qos_profile_services_default, grp_estop_);
+            rclcpp::ServicesQoS(), grp_estop_);
 
         move_timer_ = create_wall_timer(std::chrono::duration<double>(move_period),
                                         std::bind(&EHandNode::onMoveTimer, this), grp_timer_);
@@ -310,7 +310,7 @@ private:
 
         try {
             std::lock_guard<std::mutex> lk(can_mtx_);
-            hand_->reset();
+            hand_->zeroReset();
         } catch (const std::exception& e) {
             res->message = std::string("send failed: ") + e.what();
             return;

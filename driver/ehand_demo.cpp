@@ -84,11 +84,16 @@ int main(int argc, char* argv[]) {
   const char* ifname = argc > 1 ? argv[1] : "can0";
   const bool left    = argc > 2 && std::strcmp(argv[2], "left") == 0;
   const bool move    = argc > 3 && std::strcmp(argv[3], "move") == 0;
-  if (argc > 3 && ! move) {
+  bool zero = false;
+  if (argc <= 3 || (argc == 4 && std::strcmp(argv[3], "reset") == 0)) {
+    zero = true;
+  } else {
     yamlfile = argv[3];
   }
-  const bool zero    = argc > 4 && std::strcmp(argv[4], "reset") == 0;
-  
+  if (argc > 4) {
+    zero = std::strcmp(argv[4], "reset") == 0;
+  }
+
   try {
     ehand::EHandCan hand(ifname, left ? ehand::kLeftHandId : ehand::kRightHandId);
 

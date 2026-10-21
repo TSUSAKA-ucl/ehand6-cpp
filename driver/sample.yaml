@@ -19,9 +19,9 @@
 - name: "CLOSED FIST"
   description: "All fingers closed"
   fingers: 
-    1: {position: 0xFF, speed: 64, torque: 0xCC}
+    1: {position: 0xFF, speed: 32, torque: 0xCC}
     2: {position: 0xFF, speed: 64, torque: 0xCC}
     3: {position: 0xFF, speed: 64, torque: 0xCC}
-    4: {position: 0xFF, speed: 64, torque: 0xCC}
+    4: {position: 0xFF, speed: 255, torque: 0xCC}
     5: {position: 0xFF, speed: 255, torque: 0xCC}
     6: {position: 0xFF, speed: 64, torque: 0xCC}

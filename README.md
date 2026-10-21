@@ -15,6 +15,7 @@ and are **not official**.
 * `ehand6_msgs/` : ros2 message definition for eHand6 control
 
 ## How to use
+### control eHand-6 with C++ directly
 0. Connect eHand-6 to CAN FD hardware and 24V3A power supply  
    If the socket CAN interface is not `can0`, please change it accordingly in the following steps.
 1. Clone this repository
@@ -61,4 +62,42 @@ and are **not official**.
    To move according to a YAML file
    ```
    ./ehand_demo can0 right sample.yaml
+   ```
+### Launch ROS2 node (for right hand on CAN interface `can0`) and control with joint_state_publisher_gui
+1. Create a ROS2 workspace and clone this repository
+   ```
+   mkdir -p ~/ros2_ws/src
+   cd ~/ros2_ws/src
+   git clone https://github.com/TSUSAKA-ucl/ehand6-cpp.git
+   ```
+2. Build the ROS2 package
+   ```
+   colcon build
+   ```
+3. Build `ehand6_demo` executable
+   ```
+   cd ehand6-cpp/driver/
+   make
+   cd -
+   ```
+4. Source the ROS2 workspace
+   ```
+   source ~/ros2_ws/install/setup.bash
+   ```
+5. Zeroing the hand (for right hand on CAN interface `can0`)
+   ```
+   ./driver/ehand_demo can0 right
+   ```
+   for left hand on CAN interface `can1`
+   ```
+   ./driver/ehand_demo can1 left
+   ```
+6. Launch the ROS2 node and control with `joint_state_publisher_gui`  
+   for right hand on CAN interface `can0`
+   ```
+   ros2 launch ehand6_ctrl ehand6_test.launch.py can_interface:=can0 hand_side:=right
+   ```
+   for left hand on CAN interface `can1`
+   ```
+   ros2 launch ehand6_ctrl ehand6_test.launch.py can_interface:=can1 hand_side:=left
    ```
